@@ -58,6 +58,7 @@ extends HudsonTestCase
 				"No project",
 				"No plan", 
 				"No build", 
+				"No platform",
 				"class, time", 
 				"dir",
 				null, 
@@ -102,7 +103,7 @@ extends HudsonTestCase
 	
 	public void testNull()
 	{
-		builder = new TestLinkBuilder(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null );
+		builder = new TestLinkBuilder(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null );
 		
 		assertNotNull( builder );
 		
@@ -113,6 +114,8 @@ extends HudsonTestCase
 		assertNull( builder.getTestPlanName() );
 		
 		assertNull( builder.getBuildName() );
+
+		assertNull( builder.getPlatformName() );
 		
 		assertNull( builder.getSingleBuildSteps() );
 		
@@ -152,6 +155,7 @@ extends HudsonTestCase
 			"No project",
 			"No plan", 
 			"No build", 
+			"No platform",
 			"class, time", 
 			"dir",
 			singleBuildSteps, 
@@ -179,6 +183,9 @@ extends HudsonTestCase
 		
 		assertNotNull( builder.getBuildName() );
 		assertEquals( builder.getBuildName(), "No build" );
+
+		assertNotNull( builder.getPlatformName() );
+		assertEquals( builder.getPlatformName(), "No platform" );
 		
 		assertNotNull( builder.getSingleBuildSteps() );
 		assertEquals( builder.getSingleBuildSteps() , singleBuildSteps);

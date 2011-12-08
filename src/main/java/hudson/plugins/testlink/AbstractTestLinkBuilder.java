@@ -73,6 +73,11 @@ extends Builder
 	 * The name of the Build.
 	 */
 	protected String buildName;
+
+	/**
+	 * The name of the Platform
+	 */
+	protected String platformName;
 	
 	/**
 	 * Comma separated list of custom fields to download from TestLink.
@@ -148,6 +153,7 @@ extends Builder
 	 * @param testProjectName TestLink Test Project name.
 	 * @param testPlanName TestLink Test Plan name.
 	 * @param buildName TestLink Build name.
+	 * @param platformName TestLink Testplan platform name.
 	 * @param customFields TestLink comma-separated list of Custom Fields.
 	 * @param singleBuildSteps List of build steps to execute once for all automated test cases.
 	 * @param iterativeBuildSteps List of build steps to execute for each Automated Test Case.
@@ -165,6 +171,7 @@ extends Builder
 		String testProjectName, 
 		String testPlanName, 
 		String buildName, 
+		String platformName, 
 		String customFields, 
 		String keyCustomField, 
 		List<BuildStep> singleBuildSteps, 
@@ -183,6 +190,7 @@ extends Builder
 		this.testProjectName = testProjectName;
 		this.testPlanName = testPlanName;
 		this.buildName = buildName;
+		this.platformName = platformName;
 		this.customFields = customFields;
 		this.keyCustomField = keyCustomField;
 		this.singleBuildSteps = singleBuildSteps;
@@ -255,6 +263,24 @@ extends Builder
 	public String expandBuildName( VariableResolver<String> variableResolver, EnvVars envVars )
 	{
 		return Util.replaceMacro(envVars.expand(getBuildName()), variableResolver);
+	}
+
+	/**
+	 * Expands platform name job configuration property, replacing environment
+	 * variables with Jenkins+System values.
+	 *
+	 * @param variableResolver Jenkins Build Variable Resolver.
+	 * @param envVars Jenkins Build Environment Variables.
+	 * @return Expanded platform name job configuration property.
+	 */
+	public String expandPlatformName( VariableResolver<String> variableResolver, EnvVars envVars )
+	{
+		return Util.replaceMacro(envVars.expand(getPlatformName()), variableResolver);
+	}
+
+	public String getPlatformName()
+	{
+		return this.platformName;
 	}
 	
 	public String getCustomFields()

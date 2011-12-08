@@ -87,6 +87,7 @@ extends AbstractTestLinkBuilder
 		String testProjectName, 
 		String testPlanName, 
 		String buildName, 
+		String platformName, 
 		String customFields, 
 		String keyCustomField, 
 		List<BuildStep> singleBuildSteps, 
@@ -105,6 +106,7 @@ extends AbstractTestLinkBuilder
 			testProjectName, 
 			testPlanName, 
 			buildName, 
+			platformName, 
 			customFields, 
 			keyCustomField, 
 			singleBuildSteps, 
@@ -144,6 +146,7 @@ extends AbstractTestLinkBuilder
 		final String testLinkUrl 	 = installation.getUrl();
 		final String testLinkDevKey  = installation.getDevKey();
 		listener.getLogger().println ( Messages.TestLinkBuilder_UsedTLURL( testLinkUrl ) );
+		final String platformName = expandPlatformName(build.getBuildVariableResolver(), build.getEnvironment(listener));
 		
 		try 
 		{
@@ -195,6 +198,16 @@ extends AbstractTestLinkBuilder
 			listener.getLogger().println( Messages.Results_LookingForTestResults() );
 			wrappedTestCases = build.getWorkspace().act( testResultCallable );
 			listener.getLogger().println( Messages.TestLinkBuilder_ShowFoundTestResults(wrappedTestCases.size()) );
+			// Set platformName for each testcase to given platformName if set
+			if ((platformName != null) && (platformName != ""))
+			{
+				listener.getLogger().println( Messages.TestLinkBuilder_NotifyUpdatedPlatform(platformName));
+				for( TestCaseWrapper testCase : wrappedTestCases.values() )
+				{
+					testCase.setPlatform(platformName);
+				}
+			}
+
 			// Update TestLink with test results and uploads attachments
 			listener.getLogger().println( Messages.TestLinkBuilder_Update_AutomatedTestCases() );
 			testLinkSite.updateTestCases( wrappedTestCases.values() );

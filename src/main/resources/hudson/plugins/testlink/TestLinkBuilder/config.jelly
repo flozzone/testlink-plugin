@@ -22,6 +22,10 @@
   <f:entry title="${%Build Name}" help="${rootURL}/../plugin/testlink/help-buildName.html">
 	  <f:textbox name="TestLinkBuilder.buildName" value="${instance.buildName}" />
   </f:entry>
+
+  <f:entry title="${%Platform Name}" help="${rootURL}/../plugin/testlink/help-platformName.html">
+    <f:textbox name="TestLinkBuilder.platformName" value="${instance.platformName}" />
+  </f:entry>
   
   <f:entry title="${%Custom Fields}" help="${rootURL}/../plugin/testlink/help-customFields.html">
 	  <f:textbox id="customFields" name="TestLinkBuilder.customFields" value="${instance.customFields}" onchange="createKeyCustomFields()" />
