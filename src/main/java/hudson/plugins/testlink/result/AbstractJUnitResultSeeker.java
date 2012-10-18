@@ -23,6 +23,7 @@
  */
 package hudson.plugins.testlink.result;
 
+import hudson.Util;
 import hudson.FilePath.FileCallable;
 import hudson.model.BuildListener;
 import hudson.model.Result;
@@ -50,15 +51,22 @@ public abstract class AbstractJUnitResultSeeker extends ResultSeeker {
 	private static final String TEXT_XML_CONTENT_TYPE = "text/xml";
 	
 	private boolean attachJUnitXML = false;
+        
+        /**
+         * Force platform name if specified.
+         */
+        protected String platformName;
 	
 	/**
 	 * @param includePattern
 	 * @param keyCustomField
 	 * @param attachJunitXML
+         * @param platformName Forces to set the platform to platformName when submitting to testlink
 	 */
-	public AbstractJUnitResultSeeker(String includePattern, String keyCustomField, boolean attachJunitXML, boolean includeNotes) {
+	public AbstractJUnitResultSeeker(String includePattern, String keyCustomField, boolean attachJunitXML, boolean includeNotes, String platformName) {
 		super(includePattern, keyCustomField, includeNotes);
 		this.attachJUnitXML = attachJunitXML;
+                this.platformName = platformName;
 	}
 	
 	/**
@@ -74,11 +82,31 @@ public abstract class AbstractJUnitResultSeeker extends ResultSeeker {
 	public boolean isAttachJUnitXML() {
 		return attachJUnitXML;
 	}
+        
+        /**
+         * @param platformName to set 
+         */
+        public void setPlatformName(String platformName) {
+                this.platformName = platformName;
+        }
+        
+        /**
+         * @return the forced platformName
+         */
+        public String getPlatformName() {
+                return this.platformName;
+        }
 
 	protected void handleResult(TestCaseWrapper automatedTestCase, AbstractBuild<?, ?> build, BuildListener listener, TestLinkSite testlink, final SuiteResult suiteResult) {
 		if(automatedTestCase.getExecutionStatus(this.keyCustomField) != ExecutionStatus.NOT_RUN) {
 			try {
 				listener.getLogger().println( Messages.TestLinkBuilder_Update_AutomatedTestCases() );
+                                
+                                if (! platformName.isEmpty()) {
+                                    String expandedPlatformName = Util.replaceMacro(build.getEnvironment(listener).expand(platformName), build.getBuildVariableResolver());
+                                    automatedTestCase.setPlatform(expandedPlatformName);
+                                }
+                                
 				final int executionId = testlink.updateTestCase(automatedTestCase);
 				
 				if(executionId > 0 && this.isAttachJUnitXML()) {

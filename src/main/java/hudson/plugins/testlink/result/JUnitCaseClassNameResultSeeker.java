@@ -64,10 +64,11 @@ public class JUnitCaseClassNameResultSeeker extends AbstractJUnitResultSeeker {
 	 * @param includePattern Include pattern used when looking for results
 	 * @param keyCustomField Key custom field to match against the results
 	 * @param attachJunitXML Bit that enables attaching result file to TestLink
+         * @param platformName Forces to set the platform for all test results
 	 */
 	@DataBoundConstructor
-	public JUnitCaseClassNameResultSeeker(String includePattern, String keyCustomField, boolean attachJUnitXML, boolean includeNotes) {
-		super(includePattern, keyCustomField, attachJUnitXML, includeNotes);
+	public JUnitCaseClassNameResultSeeker(String includePattern, String keyCustomField, boolean attachJUnitXML, boolean includeNotes, String platformName) {
+		super(includePattern, keyCustomField, attachJUnitXML, includeNotes, platformName);
 	}
 	
 	@Extension

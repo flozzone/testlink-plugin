@@ -57,10 +57,11 @@ public class JUnitSuiteNameResultSeeker extends AbstractJUnitResultSeeker {
 	/**
 	 * @param includePattern Include pattern used when looking for results
 	 * @param keyCustomField Key custom field to match against the results
+         * @param platformName Forces to set the platform for all test results
 	 */
 	@DataBoundConstructor
-	public JUnitSuiteNameResultSeeker(String includePattern, String keyCustomField, boolean attachJUnitXML, boolean includeNotes) {
-		super(includePattern, keyCustomField, attachJUnitXML, includeNotes);
+	public JUnitSuiteNameResultSeeker(String includePattern, String keyCustomField, boolean attachJUnitXML, boolean includeNotes, String platformName) {
+		super(includePattern, keyCustomField, attachJUnitXML, includeNotes, platformName);
 	}
 
 	@Extension

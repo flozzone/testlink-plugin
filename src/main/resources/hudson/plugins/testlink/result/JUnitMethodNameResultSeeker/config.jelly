@@ -15,5 +15,9 @@
     <f:entry title="${%Include test notes}" help="${rootURL}/../plugin/testlink/help-includeNotes.html">
         <f:checkbox name="JUnitMethodNameResultSeeker.includeNotes" value="${instance.includeNotes}" checked="${instance.includeNotes}" />
     </f:entry>
+    
+    <f:entry title="${%Platform name}" help="${rootURL}/../plugin/testlink/help-platformName.html">
+        <f:textbox id="platformName" name="JUnitMethodNameResultSeeker.platformName" value="${instance.platformName}" />
+    </f:entry>
 
 </j:jelly>
